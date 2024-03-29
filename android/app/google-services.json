@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "268588314634",
+    "firebase_url": "https://product-manager-43a34-default-rtdb.firebaseio.com",
+    "project_id": "product-manager-43a34",
+    "storage_bucket": "product-manager-43a34.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268588314634:android:ca245c0775e0340251aff3",
+        "android_client_info": {
+          "package_name": "com.example.product_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF7YcyQCok43cs45DsVxrLi9NldqNcfnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
