@@ -84,6 +84,7 @@ class _PinScreenState extends State<PinScreen> {
                       const SizedBox(
                         height: 30,
                       ),
+
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is UserLoading) {
