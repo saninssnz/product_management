@@ -23,7 +23,7 @@ The project follows Clean Architecture principles, organized into three layers:
 
 ## Dependencies
 - firebase_auth: For handling user authentication.
-- cloud_firestore: For storing and retrieving product data in real-time.
+- cloud_firestore: For storing and retrieving product data.
 - flutter_bloc: For implementing the BLoC pattern for state management.
 - qr_flutter: To generate QR codes for products.
 - flutter_otp_text_field: For OTP textfields view.
