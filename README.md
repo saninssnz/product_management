@@ -1,4 +1,3 @@
-
 #Product Management App
 This project is a Flutter-based mobile application designed for efficient product management. It leverages Google Firebase for robust authentication and cloud storage capabilities, ensuring a secure and scalable solution for managing product data. The application is built following the principles of Clean Architecture to promote a maintainable, and scalable codebase. For state management, it employs the BLoC (Business Logic Component) pattern, facilitating reactive and predictable state management throughout the app.
 
