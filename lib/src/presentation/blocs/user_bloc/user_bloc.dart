@@ -10,6 +10,7 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
+
     on<SetUserData>((event, emit) async {
       emit(UserLoading());
 

@@ -22,7 +22,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     final userBloc = BlocProvider.of<UserBloc>(context);
     return Scaffold(
-      appBar: AppBar(),
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFFFFB900),
       body: SingleChildScrollView(
@@ -81,75 +80,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      BlocBuilder<UserBloc, UserState>(
-                        builder: (context, state) {
-                          if(state is UserLoading ){
-                            return const CircularProgressIndicator();
-                          }
-                          else {
-                            return InkWell(
-                              onTap: () async {
-                                if(emailController.text == ""){
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text("Enter email"),
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                }
-                                else if(passwordController.text == ""){
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text("Enter password"),
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                }
-                                else{
-                                  userBloc.add(CreateUserData(email: emailController.text, password: passwordController.text));
-
-                                  if(state is UserLoaded) {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (
-                                                context) => const LoginScreen()));
-                                  }
-                                }
-                                // User? user = await createAccount(
-                                //     emailController.text, passwordController.text);
-                                // if (user != null) {
-                                //   Navigator.of(context).pushReplacement(
-                                //       MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           const LoginScreen()));
-                                //   if (kDebugMode) {
-                                //     print("Signup successful");
-                                //   }
-                                //
-                                // } else {
-                                //   if (kDebugMode) {
-                                //     print("Signup failed");
-                                //   }
-                                // }
-                              },
-                              child: Material(
-                                elevation: 1,
-                                borderRadius: BorderRadius.circular(40),
-                                color: Colors.black,
-                                child: const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 50.0, vertical: 20),
-                                    child: Text(
-                                      "Sign Up",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                      BlocListener<UserBloc, UserState>(
+                        listener: (context, state) {
+                          if (state is UserLoaded) {
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ));
+                          } else if (state is UserError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)),
                             );
                           }
                         },
+                        child: BlocBuilder<UserBloc, UserState>(
+                          builder: (context, state) {
+                            if (state is UserLoading) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return InkWell(
+                                onTap: () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (emailController.text == "") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Enter email"),
+                                      duration: Duration(seconds: 2),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  } else if (passwordController.text == "") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Enter password"),
+                                      duration: Duration(seconds: 2),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  } else {
+                                    userBloc.add(CreateUserData(
+                                        email: emailController.text,
+                                        password: passwordController.text));
+                                  }
+                                },
+                                child: Material(
+                                  elevation: 1,
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.black,
+                                  child: const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50.0, vertical: 20),
+                                      child: Text(
+                                        "Sign Up",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),

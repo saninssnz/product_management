@@ -16,13 +16,13 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   TextEditingController searchController = TextEditingController();
 
-  @override
-  void initState() {
-    final productBloc = BlocProvider.of<ProductBloc>(context);
-
-    productBloc.add(ProductFetchEvent());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   final productBloc = BlocProvider.of<ProductBloc>(context);
+  //
+  //   productBloc.add(ProductFetchEvent());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                   const SizedBox(height: 10,),
                   Expanded(
-                    child:  state.productList!.isNotEmpty?
+                    child: state.productList!.isNotEmpty?
                     ListView.builder(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,

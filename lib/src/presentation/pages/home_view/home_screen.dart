@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:machine_test/src/presentation/blocs/product_bloc/product_bloc.dart';
 import 'package:machine_test/src/presentation/pages/product_add_view/product_add_screen.dart';
 import 'package:machine_test/src/presentation/pages/product_list_view/product_list_screen.dart';
 
@@ -47,6 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 30,),
               InkWell(
                 onTap: (){
+
+                  context.read<ProductBloc>().add(ProductFetchEvent());
+
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
                       const ProductListScreen()));

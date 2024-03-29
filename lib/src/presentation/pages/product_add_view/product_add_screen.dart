@@ -12,7 +12,6 @@ class ProductAddScreen extends StatefulWidget {
 }
 
 class _ProductAddScreenState extends State<ProductAddScreen> {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController measurementController = TextEditingController();
@@ -43,6 +42,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
               TextFormField(
                 cursorColor: Colors.grey[350],
                 controller: measurementController,
+                keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -60,6 +60,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
               TextFormField(
                 cursorColor: Colors.grey[350],
                 controller: priceController,
+                keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                 ],
@@ -71,12 +72,14 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       fontSize: 12),
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               BlocConsumer<ProductBloc, ProductState>(
                 listener: (context, state) {
                   if (state is ProductAddedSuccessfully) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Product added successfully!')),
+                      const SnackBar(content: Text('Product added successfully!')),
                     );
                   } else if (state is ProductError) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -86,16 +89,19 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                 },
                 builder: (context, state) {
                   if (state is ProductLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   return InkWell(
                     onTap: () {
+
+                      FocusScope.of(context).unfocus();
+
                       if (state is! ProductLoading) {
                         context.read<ProductBloc>().add(AddProductEvent(
-                          productName: nameController.text,
-                          measurement: measurementController.text,
-                          price: double.parse(priceController.text),
-                        ));
+                              productName: nameController.text,
+                              measurement: measurementController.text,
+                              price: double.parse(priceController.text),
+                            ));
                       }
                     },
                     child: Material(
@@ -104,10 +110,13 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       color: Colors.black,
                       child: const Center(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50.0, vertical: 20),
                           child: Text(
                             "Add",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

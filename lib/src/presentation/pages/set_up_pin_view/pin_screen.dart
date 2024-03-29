@@ -92,7 +92,7 @@ class _PinScreenState extends State<PinScreen> {
                             return InkWell(
                               onTap: () async {
 
-                                FocusNode().requestFocus();
+                                FocusScope.of(context).unfocus();
 
                                 if(otpController.text == "") {
                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

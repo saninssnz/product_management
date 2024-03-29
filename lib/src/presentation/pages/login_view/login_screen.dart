@@ -15,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -100,60 +99,69 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 30,
                       ),
-                      BlocBuilder<UserBloc, UserState>(
-                        builder: (context, state) {
-                          if (state is UserLoading) {
-                            return const CircularProgressIndicator();
-                          } else {
-                            return InkWell(
-                              onTap: () async {
-                                FocusNode().requestFocus();
-                                if(emailController.text == ""){
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("Enter email"),
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                }
-                                else if(passwordController.text == ""){
-                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                    content: Text("Enter password"),
-                                    duration: Duration(seconds: 2),
-                                    backgroundColor: Colors.red,
-                                  ));
-                                }
-                                else {
-                                  userBloc.add(SetUserData(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      pin: ""));
-
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                            const PinScreen(true)));
-                                }
-                              },
-                              child: Material(
-                                elevation: 1,
-                                borderRadius: BorderRadius.circular(40),
-                                color: Colors.black,
-                                child: const Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 50.0, vertical: 20),
-                                    child: Text(
-                                      "Sign In",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ),
+                      BlocListener<UserBloc, UserState>(
+                        listener: (context, state) {
+                          if (state is UserLoaded) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const PinScreen(true),
+                            ));
+                          } else if (state is UserError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.message)),
                             );
                           }
                         },
+                        child: BlocBuilder<UserBloc, UserState>(
+                          builder: (context, state) {
+                            if (state is UserLoading) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              return InkWell(
+                                onTap: () async {
+                                  FocusScope.of(context).unfocus();
+
+                                  if (emailController.text == "") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Enter email"),
+                                      duration: Duration(seconds: 2),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  } else if (passwordController.text == "") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Enter password"),
+                                      duration: Duration(seconds: 2),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  } else {
+                                    userBloc.add(SetUserData(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        pin: ""));
+                                  }
+                                },
+                                child: Material(
+                                  elevation: 1,
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.black,
+                                  child: const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 50.0, vertical: 20),
+                                      child: Text(
+                                        "Sign In",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
